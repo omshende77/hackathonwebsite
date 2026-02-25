@@ -61,7 +61,7 @@ export default function About() {
         <div className="relative">
           <div
             className="relative rounded-3xl overflow-hidden border border-white/10 
-          backdrop-blur-xl bg-white/5 shadow-[0_0_60px_rgba(0,255,255,0.15)]"
+          backdrop-blur-xl bg-white/5 shadow-[0_0_60px_rgba(0,255,255,0.20)]"
           >
             <img
               src="/imgw.png"
