@@ -1,37 +1,99 @@
+import Globe from "./Globe";
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-28 overflow-hidden">
-      {/* Background blobs */}
-      <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-blue-300/30 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-[-6rem] left-1/3 h-96 w-96 rounded-full bg-indigo-300/20 blur-3xl" />
+    <section className="relative min-h-screen flex items-center bg-black text-white overflow-hidden">
+      {/* Background Video */}
+      <img
+        className="absolute inset-0 w-full h-full object-cover"
+        src="/ChatGPT Image Feb 25, 2026, 04_48_47 PM.png"
+        alt="Hackathon Hero"
+      />
 
-      <div className="relative max-w-5xl mx-auto px-6 text-center">
-        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600">
-            SGI Hackathon 2026
-          </span>
-        </h1>
+      {/* <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/tech.mp4" type="video/mp4" />
+      </video> */}
 
-        <p className="mt-6 text-lg md:text-xl text-gray-600">
-          Build innovative tech solutions. Collaborate with the best minds.
-          Compete, learn, and showcase your skills.
-        </p>
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/60"></div>
 
-        <div className="mt-10 flex justify-center gap-4">
-          <a
-            href="/register"
-            className="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-lg font-semibold shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-cyan-300/50"
+      {/* Glow Accent */}
+      <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] bg-cyan-500/20 blur-[150px] rounded-full"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-28">
+        {/* LEFT SIDE CONTENT */}
+        <div>
+          {/* Badge */}
+          <div
+            className="inline-flex items-center px-4 py-2 rounded-full 
+          border border-cyan-400/40 bg-cyan-500/10 text-cyan-300 text-sm mb-6"
           >
-            Register Now
-          </a>
+            🚀 24-Hour Innovation Sprint
+          </div>
 
-          <a
-            href="#themes"
-            className="inline-flex items-center justify-center px-7 py-3 rounded-xl border border-gray-300 text-gray-800 text-lg transition-all duration-300 hover:border-cyan-400 hover:text-cyan-600 hover:-translate-y-1"
-          >
-            View Themes
-          </a>
+          {/* Main Heading */}
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
+            Build<br></br> Solutions
+            <br />
+            That{" "}
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Transform
+            </span>
+          </h1>
+
+          {/* Subtext */}
+          <p className="mt-6 text-gray-300 text-lg max-w-xl">
+            Join SGI Hackathon 2026. Collaborate, innovate, and create impactful
+            tech solutions in a high-energy 24-hour coding marathon.
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-8 flex flex-wrap gap-5">
+            <a
+              href="/register"
+              className="px-8 py-3 rounded-xl font-semibold 
+              bg-gradient-to-r from-cyan-500 to-blue-600
+              hover:scale-105 transition duration-300
+              shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.8)]"
+            >
+              Register Now →
+            </a>
+
+            <a
+              href="/hackathon"
+              className="px-8 py-3 rounded-xl border border-white/20 
+              hover:border-cyan-400 hover:text-cyan-400
+              transition duration-300"
+            >
+              Learn More
+            </a>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-12 flex gap-12 text-sm text-gray-400">
+            <div>
+              <p className="text-2xl font-bold text-white">500+</p>
+              Participants
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-white">100+</p>
+              Teams
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-white">₹50K+</p>
+              Prize Pool
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE VISUAL CARD */}
+        <div className="relative hidden lg:flex items-center justify-center h-[550px]">
+          <Globe />
         </div>
       </div>
     </section>

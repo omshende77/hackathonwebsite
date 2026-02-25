@@ -23,51 +23,60 @@ const tracks = [
 
 export default function Hackathon() {
   return (
-    <div className="pt-28 pb-20 bg-slate-50">
-      {/* Header */}
+    <div className="pt-28 pb-28 bg-black text-white overflow-hidden">
+      {/* HEADER */}
       <section className="max-w-6xl mx-auto px-6 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600">
-            Hackathon 2026
-          </span>
+        <h1
+          className="text-5xl md:text-6xl font-extrabold 
+        bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500"
+        >
+          Hackathon 2026
         </h1>
-        <p className="mt-4 text-gray-600 text-lg">
-          24-hour innovation sprint to build impactful tech solutions
+
+        <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
+          A 24-hour innovation sprint to build impactful tech solutions,
+          collaborate with brilliant minds, and push your limits.
         </p>
       </section>
 
-      {/* Tracks */}
-      <section className="max-w-6xl mx-auto px-6 mt-16">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center">
+      {/* TRACKS */}
+      <section className="max-w-6xl mx-auto px-6 mt-24">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-cyan-400">
           Tracks
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-14">
           {tracks.map((track, idx) => (
             <div
               key={idx}
-              className="group relative p-6 rounded-2xl bg-white border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-200/40"
+              className="group relative p-8 rounded-3xl 
+              bg-white/5 backdrop-blur-xl border border-white/10
+              transition-all duration-500
+              hover:-translate-y-3 hover:shadow-[0_0_40px_rgba(0,255,255,0.4)]"
             >
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/10 to-blue-400/10 opacity-0 group-hover:opacity-100 transition"></div>
-              <div className="relative">
-                <div className="text-4xl">{track.icon}</div>
-                <h3 className="mt-4 text-xl font-semibold text-gray-900">
-                  {track.title}
-                </h3>
-                <p className="mt-2 text-gray-600 text-sm">{track.desc}</p>
+              <div className="text-5xl group-hover:scale-110 transition">
+                {track.icon}
               </div>
+
+              <h3 className="mt-6 text-xl font-semibold group-hover:text-cyan-400 transition">
+                {track.title}
+              </h3>
+
+              <p className="mt-3 text-gray-400 text-sm leading-relaxed">
+                {track.desc}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Rules */}
-      <section className="max-w-4xl mx-auto px-6 mt-20">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center">
+      {/* RULES */}
+      <section className="max-w-4xl mx-auto px-6 mt-28">
+        <h2 className="text-3xl font-bold text-center text-cyan-400">
           Rules & Guidelines
         </h2>
 
-        <ul className="mt-8 space-y-4">
+        <ul className="mt-10 space-y-5">
           {[
             "Team size: 2–4 members",
             "All code must be written during the hackathon",
@@ -77,21 +86,23 @@ export default function Hackathon() {
           ].map((rule, idx) => (
             <li
               key={idx}
-              className="p-4 bg-white rounded-xl border border-gray-200 hover:border-cyan-400 transition"
+              className="p-5 rounded-2xl bg-white/5 border border-white/10
+              hover:border-cyan-400 transition duration-300"
             >
-              ✅ {rule}
+              <span className="text-cyan-400 font-semibold mr-2">✓</span>
+              {rule}
             </li>
           ))}
         </ul>
       </section>
 
-      {/* Prizes */}
-      <section className="max-w-5xl mx-auto px-6 mt-20 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+      {/* PRIZES */}
+      <section className="max-w-5xl mx-auto px-6 mt-28 text-center">
+        <h2 className="text-3xl font-bold text-cyan-400">
           Prizes & Recognition
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-14">
           {[
             { title: "🥇 Winner", prize: "₹25,000 + Trophy" },
             { title: "🥈 Runner-up", prize: "₹15,000" },
@@ -99,22 +110,23 @@ export default function Hackathon() {
           ].map((p, idx) => (
             <div
               key={idx}
-              className="p-6 bg-white rounded-2xl border border-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+              className="p-8 rounded-3xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10
+              border border-cyan-400/20
+              hover:scale-105 transition duration-300
+              hover:shadow-[0_0_50px_rgba(0,255,255,0.5)]"
             >
-              <h3 className="text-xl font-semibold">{p.title}</h3>
-              <p className="mt-2 text-gray-600">{p.prize}</p>
+              <h3 className="text-2xl font-semibold">{p.title}</h3>
+              <p className="mt-4 text-gray-300 text-lg">{p.prize}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="max-w-4xl mx-auto px-6 mt-20">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center">
-          FAQs
-        </h2>
+      <section className="max-w-4xl mx-auto px-6 mt-28">
+        <h2 className="text-3xl font-bold text-center text-cyan-400">FAQs</h2>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-10 space-y-5">
           {[
             {
               q: "Who can participate?",
@@ -131,10 +143,11 @@ export default function Hackathon() {
           ].map((faq, idx) => (
             <div
               key={idx}
-              className="p-5 bg-white rounded-xl border border-gray-200 hover:border-cyan-400 transition"
+              className="p-6 rounded-2xl bg-white/5 border border-white/10
+              hover:border-cyan-400 transition duration-300"
             >
-              <h4 className="font-semibold text-gray-900">{faq.q}</h4>
-              <p className="mt-2 text-gray-600 text-sm">{faq.a}</p>
+              <h4 className="font-semibold text-lg">{faq.q}</h4>
+              <p className="mt-3 text-gray-400 text-sm">{faq.a}</p>
             </div>
           ))}
         </div>

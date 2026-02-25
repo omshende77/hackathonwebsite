@@ -7,8 +7,13 @@ import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import Hackathon from "./pages/Hackathon";
 import NotFound from "./pages/Notfound";
+      import Schedule from "./pages/Schedule";
+      import About from "./components/About";
+
 
 export default function App() {
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50">
       <Navbar />
@@ -18,6 +23,7 @@ export default function App() {
           element={
             <>
               <Hero />
+              <About/>
               <Themes />
               <Timeline />
             </>
@@ -26,6 +32,9 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/hackathon" element={<Hackathon />} />
         <Route path="*" element={<NotFound />} />
+  
+
+<Route path="/schedule" element={<Schedule />} />
       </Routes>
       <Footer />
     </div>
