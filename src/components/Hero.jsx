@@ -22,8 +22,14 @@ export default function Hero() {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60"></div>
       {/* Centered Neon Heading */}
-      <div className="absolute top-24 left-1/2 -translate-x-1/2 z-20 text-center">
-        <h2 className="neon-flicker text-xl md:text-5xl font-bold uppercase tracking-widest">
+      <div className="absolute top-28 left-1/2 -translate-x-1/2 z-20 w-full text-center px-6 md:px-20">
+        <h2
+          className="neon-flicker 
+    text-2xl sm:text-3xl md:text-4xl 
+    font-bold uppercase 
+    tracking-[0.16em] 
+    leading-snug"
+        >
           Suryadatta Group of Institutes <br />
           Hackathon 2026
         </h2>
