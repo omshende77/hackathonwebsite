@@ -9,3 +9,32 @@ html {
 * {
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+.neon-text {
+  text-shadow:
+    0 0 5px #00f5ff,
+    0 0 10px #00f5ff,
+    0 0 20px #00f5ff,
+    0 0 40px #00f5ff;
+}
+@keyframes neonGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 5px #00f5ff,
+      0 0 10px #00f5ff,
+      0 0 20px #00f5ff,
+      0 0 40px #00f5ff;
+    opacity: 1;
+  }
+  50% {
+    text-shadow:
+      0 0 2px #00f5ff,
+      0 0 5px #00f5ff;
+    opacity: 0.85;
+  }
+}
+
+.neon-flicker {
+  animation: neonGlow 2s ease-in-out infinite;
+}

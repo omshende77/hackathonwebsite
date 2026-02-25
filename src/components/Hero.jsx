@@ -21,13 +21,22 @@ export default function Hero() {
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60"></div>
+      {/* Centered Neon Heading */}
+      <div className="absolute top-24 left-1/2 -translate-x-1/2 z-20 text-center">
+        <h2 className="neon-flicker text-xl md:text-5xl font-bold uppercase tracking-widest">
+          Suryadatta Group of Institutes <br />
+          Hackathon 2026
+        </h2>
+      </div>
 
       {/* Glow Accent */}
       <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] bg-cyan-500/20 blur-[150px] rounded-full"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-28">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-52 ">
         {/* LEFT SIDE CONTENT */}
         <div>
+          {/* Glowing Institution Heading */}
+
           {/* Badge */}
           <div
             className="inline-flex items-center px-4 py-2 rounded-full 
@@ -56,7 +65,7 @@ export default function Hero() {
           <div className="mt-8 flex flex-wrap gap-5">
             <a
               href="/register"
-              className="px-8 py-3 rounded-xl font-semibold 
+              className="px-16 py-5 rounded-xl font-semibold 
               bg-gradient-to-r from-cyan-500 to-blue-600
               hover:scale-105 transition duration-300
               shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.8)]"
@@ -66,7 +75,7 @@ export default function Hero() {
 
             <a
               href="/hackathon"
-              className="px-8 py-3 rounded-xl border border-white/20 
+              className="px-10 py-5 rounded-xl border border-white/20 
               hover:border-cyan-400 hover:text-cyan-400
               transition duration-300"
             >

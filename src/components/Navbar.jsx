@@ -60,7 +60,7 @@ export default function Navbar() {
         shadow-lg hover:shadow-[0_0_30px_rgba(0,255,255,0.8)] 
         hover:scale-105 transition duration-300"
       >
-        Register 🚀
+        Register 
       </Link>
 
       {/* Mobile Menu Button */}
