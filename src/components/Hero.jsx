@@ -8,9 +8,6 @@ import "aos/dist/aos.css";
 export default function Hero() {
   const today = new Date();
   const resultDate = new Date("2026-03-20T18:00:00");
-  
-
-
 
   useEffect(() => {
     AOS.init({ duration: 900, once: true });
@@ -18,7 +15,6 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen bg-black text-white overflow-hidden">
-    
       {/* Background Image */}
       <img
         className="absolute inset-0 w-full h-full object-cover"
@@ -100,24 +96,24 @@ export default function Hero() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="/register"
+              <Link
+                to="/register"
                 className="px-8 sm:px-12 py-4 rounded-xl font-semibold 
-                bg-gradient-to-r from-cyan-500 to-blue-600
-                hover:scale-[1.05] transition
-                shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.6)]"
+  bg-gradient-to-r from-cyan-500 to-blue-600
+  hover:scale-[1.05] transition
+  shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.6)] inline-block"
               >
                 Register Your Team →
-              </a>
+              </Link>
 
-              <a
-                href="/hackathon"
+              <Link
+                to="/hackathon"
                 className="px-8 py-4 rounded-xl border border-white/20 
-                hover:border-cyan-400 hover:text-cyan-400
-                transition"
+  hover:border-cyan-400 hover:text-cyan-400
+  transition inline-block"
               >
                 Explore Themes
-              </a>
+              </Link>
             </div>
 
             {/* Stats */}
