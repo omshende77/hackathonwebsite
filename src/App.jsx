@@ -24,6 +24,7 @@ import Round1Results from "./pages/Round1Results";
 import FinalResults from "./pages/FinalResults";
 import CheckStatus from "./pages/CheckStatus";
 import SplashScreen from "./components/SplashScreen";
+import Countdown from "./components/Countdown"; 
 
 export default function App() {
   const navigate = useNavigate();
@@ -114,6 +115,7 @@ export default function App() {
               element={
                 <>
                   <Hero />
+                  <Countdown />
                   <About />
                   <Themes />
                   <PrizePool />

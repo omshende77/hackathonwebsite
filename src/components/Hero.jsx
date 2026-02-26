@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Confetti from "react-confetti"; // if you are using this library
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Countdown from "../components/Countdown";
 
 export default function Hero() {
   const today = new Date();
