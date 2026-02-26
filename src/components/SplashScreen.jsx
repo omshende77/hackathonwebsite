@@ -15,7 +15,7 @@ const SplashScreen = ({ onFinish }) => {
       }
       setDisplayedText((prev) => prev + nextChar);
       index++;
-    }, 180);
+    }, 70);
 
     return () => clearInterval(interval);
   }, []);

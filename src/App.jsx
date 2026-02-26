@@ -28,29 +28,25 @@ import SplashScreen from "./components/SplashScreen";
 export default function App() {
   const navigate = useNavigate();
   const [showSplash, setShowSplash] = useState(true);
-  const [showConfetti, setShowConfetti] = useState(false);
+  // const [showConfetti, setShowConfetti] = useState(false);
+  const [pieces, setPieces] = useState(0);
 
   useEffect(() => {
-    let timeoutId;
-
     const triggerConfetti = () => {
-      setShowConfetti(true);
+      // Start generating pieces
+      setPieces(600);
 
-      // Stop after 5 seconds
-      timeoutId = setTimeout(() => {
-        setShowConfetti(false);
-      }, 10000);
+      // Stop generating new pieces after 5 sec
+      setTimeout(() => {
+        setPieces(0);
 
-      // Random next trigger (8–9 sec)
-      const nextTime = 8000 + Math.random() * 1000;
-      setTimeout(triggerConfetti, nextTime);
+        // Wait 5-6 sec then restart
+        const nextTime = 5000 + Math.random() * 1000;
+        setTimeout(triggerConfetti, nextTime);
+      }, 5000);
     };
 
     triggerConfetti();
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
   }, []);
 
   // Initialize AOS
@@ -62,10 +58,18 @@ export default function App() {
     });
   }, []);
 
-  // Admin shortcut: Ctrl + Shift + A
+  //admin shortcut: Ctrl + Shift + A
   useEffect(() => {
     const handleKeyDown = (e) => {
+      const isTyping =
+        e.target.tagName === "INPUT" ||
+        e.target.tagName === "TEXTAREA" ||
+        e.target.isContentEditable;
+
+      if (isTyping) return;
+
       if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
+        e.preventDefault();
         navigate("/admin");
       }
     };
@@ -76,21 +80,22 @@ export default function App() {
 
   return (
     <>
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          recycle={false}
-          numberOfPieces={400}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            zIndex: 9999,
-            pointerEvents: "none",
-          }}
-        />
-      )}
+      <Confetti
+        numberOfPieces={pieces}
+        recycle={false}
+        gravity={0.1}
+        initialVelocityY={10}
+        tweenDuration={8000}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: 9999,
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Splash Screen */}
       <AnimatePresence>

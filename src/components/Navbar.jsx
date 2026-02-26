@@ -1,10 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useRef } from "react";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const pressTimer = useRef(null);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -13,6 +15,17 @@ export default function Navbar() {
     { name: "Register", path: "/register" },
     { name: "Check Status", path: "/check-status" },
   ];
+
+  // 🔥 Long Press on Logo (Mobile Only)
+  const handleTouchStart = () => {
+    pressTimer.current = setTimeout(() => {
+      navigate("/admin");
+    }, 3000); // 3 seconds
+  };
+
+  const handleTouchEnd = () => {
+    clearTimeout(pressTimer.current);
+  };
 
   return (
     <nav
@@ -24,10 +37,12 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           to="/"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           className="text-lg sm:text-2xl font-extrabold tracking-wide 
           bg-gradient-to-r from-cyan-400 to-blue-500 
           bg-clip-text text-transparent 
-          hover:opacity-80 transition"
+          hover:opacity-80 transition select-none"
         >
           TechSprint 2026
         </Link>
@@ -49,7 +64,6 @@ export default function Navbar() {
               >
                 {link.name}
 
-                {/* Animated underline */}
                 <span
                   className={`absolute left-0 -bottom-1 h-0.5 bg-cyan-400 transition-all duration-300 ${
                     isActive ? "w-full" : "w-0 group-hover:w-full"
@@ -107,7 +121,6 @@ export default function Navbar() {
             );
           })}
 
-          {/* Mobile CTA */}
           <Link
             to="/register"
             onClick={() => setOpen(false)}
