@@ -130,3 +130,11 @@ input:-webkit-autofill:focus {
 .soft-glow {
   animation: softShadowPulse 2.5s ease-in-out infinite;
 }
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
