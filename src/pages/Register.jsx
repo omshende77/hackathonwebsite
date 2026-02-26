@@ -78,7 +78,8 @@ export default function Register() {
     setShowSuccess(true);
   };
 
-  const handlePayment = async () => {
+  const handlePayment = async (e) => {
+    e.preventDefault();
     if (!agree) {
       alert("Please accept the declaration before proceeding.");
       return;
@@ -95,11 +96,14 @@ export default function Register() {
       }
     }
 
-    const response = await fetch("http://localhost:5000/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 1000 }),
-    });
+    const response = await fetch(
+      "https://sgi-hackathon-backend.onrender.com/create-order",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 1000 }),
+      },
+    );
 
     const order = await response.json();
 
@@ -111,11 +115,14 @@ export default function Register() {
       description: "Registration Fee",
       order_id: order.id,
       handler: async function (response) {
-        const verify = await fetch("http://localhost:5000/verify-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(response),
-        });
+        const verify = await fetch(
+          "https://sgi-hackathon-backend.onrender.com/verify-payment",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(response),
+          },
+        );
 
         const result = await verify.json();
         if (result.success) {
@@ -145,10 +152,7 @@ export default function Register() {
 
         {registrationOpen ? (
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handlePayment();
-            }}
+            onSubmit={handlePayment}
             data-aos="fade-up"
             className="mt-12 bg-white/5 backdrop-blur-xl p-6 sm:p-10 rounded-3xl border border-white/10 space-y-8"
           >

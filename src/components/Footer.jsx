@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   useEffect(() => {
@@ -40,15 +41,15 @@ export default function Footer() {
           </p>
 
           <div className="mt-8">
-            <a
-              href="/register"
+            <Link
+              to="/register"
               className="inline-block px-8 py-3 rounded-xl font-semibold
-              bg-gradient-to-r from-cyan-500 to-blue-600
-              hover:scale-[1.05] transition duration-300
-              shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.8)]"
+  bg-gradient-to-r from-cyan-500 to-blue-600
+  hover:scale-[1.05] transition duration-300
+  shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.8)]"
             >
               Register Your Team
-            </a>
+            </Link>
           </div>
         </div>
 
