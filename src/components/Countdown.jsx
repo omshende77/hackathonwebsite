@@ -40,7 +40,10 @@ export default function Countdown() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center mt-12 px-4">
+    <div
+      data-aos="fade-up"
+      className="flex flex-col items-center justify-center mt-12 px-4"
+    >
       {/* Heading */}
       <h2
         className="text-4xl md:text-5xl font-extrabold mb-6 text-center 
@@ -65,7 +68,8 @@ export default function Countdown() {
             text-center
             shadow-[0_0_30px_rgba(0,255,255,0.3)]
             hover:scale-105
-            transition-all duration-300"
+            transition-all duration-300
+            "
           >
             <div className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-[0_0_10px_cyan]">
               {timeLeft[unit]}
