@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
+import { Instagram, Linkedin, Youtube, Globe } from "lucide-react";
 
 export default function Footer() {
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function Footer() {
         <div data-aos="fade-up">
           <h2
             className="text-2xl sm:text-4xl md:text-5xl font-extrabold 
-          bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500"
+            bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500"
           >
             Ready to Code for 24 Hours?
           </h2>
@@ -31,7 +32,7 @@ export default function Footer() {
             Join{" "}
             <span className="text-white font-semibold">
               TechSprint – 24 Hrs Hackathon 2026
-            </span>
+            </span>{" "}
             on 20th & 21st March 2026. Compete, collaborate, and build impactful
             solutions across five innovation themes.
           </p>
@@ -44,43 +45,86 @@ export default function Footer() {
             <Link
               to="/register"
               className="inline-block px-8 py-3 rounded-xl font-semibold
-  bg-gradient-to-r from-cyan-500 to-blue-600
-  hover:scale-[1.05] transition duration-300
-  shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.8)]"
+              bg-gradient-to-r from-cyan-500 to-blue-600
+              hover:scale-[1.05] transition duration-300
+              shadow-lg hover:shadow-[0_0_40px_rgba(0,255,255,0.8)]"
             >
               Register Your Team
             </Link>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="mt-16 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-400">
-          {/* Left */}
-          <p className="text-center md:text-left">
-            © 2026 TechSprint – 24 Hrs Hackathon | SGI MCA Department. All
-            rights reserved.
-          </p>
-
-          {/* Center Links */}
-          <div className="flex flex-wrap justify-center gap-6">
-            <a href="/" className="hover:text-cyan-400 transition">
-              Home
-            </a>
-            <a href="/hackathon" className="hover:text-cyan-400 transition">
-              Hackathon
-            </a>
-            <a href="/schedule" className="hover:text-cyan-400 transition">
-              Schedule
-            </a>
-            <a href="/register" className="hover:text-cyan-400 transition">
-              Register
-            </a>
+        {/* Divider Section */}
+        <div className="mt-16 border-t border-white/10 pt-10 grid md:grid-cols-3 gap-8 text-sm text-gray-400">
+          {/* Left - Copyright */}
+          <div className="text-center md:text-left space-y-2">
+            <p>© 2026 TechSprint – 24 Hrs Hackathon</p>
+            <p>SGI MCA Department</p>
+            <p className="text-gray-500">Bavdhan, Pune – 411021</p>
           </div>
 
-          {/* Right Contact */}
-          <div className="text-center md:text-right">
-            <p>📧 techsprint@sgi.edu.in</p>
-            <p>📞 +91 98765 43210</p>
+          {/* Center - Navigation Links */}
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link to="/" className="hover:text-cyan-400 transition">
+              Home
+            </Link>
+            <Link to="/hackathon" className="hover:text-cyan-400 transition">
+              Hackathon
+            </Link>
+            <Link to="/schedule" className="hover:text-cyan-400 transition">
+              Schedule
+            </Link>
+            <Link to="/register" className="hover:text-cyan-400 transition">
+              Register
+            </Link>
+          </div>
+
+          {/* Right - Social & Contact */}
+          <div className="flex flex-col items-center md:items-end gap-4">
+            {/* Contact */}
+            <div className="text-center md:text-right">
+              <p>📧 techsprint@sgi.edu.in</p>
+              <p>📞 +91 98765 43210</p>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex gap-5 mt-2">
+              <a
+                href="https://www.instagram.com/suryadatta_mca/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition transform hover:scale-110"
+              >
+                <Instagram className="w-6 h-6 hover:text-pink-500 transition" />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/suryadatta-mca-dept21-353143329/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition transform hover:scale-110"
+              >
+                <Linkedin className="w-6 h-6 hover:text-blue-600 transition" />
+              </a>
+
+              <a
+                href="https://www.youtube.com/@suryadattagroupofinstitute4568"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition transform hover:scale-110"
+              >
+                <Youtube className="w-6 h-6 hover:text-red-600 transition" />
+              </a>
+
+              <a
+                href="https://www.suryadatta.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition transform hover:scale-110"
+              >
+                <Globe className="w-6 h-6 hover:text-green-500 transition" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
