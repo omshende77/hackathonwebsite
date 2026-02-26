@@ -11,6 +11,7 @@ export default function Register() {
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   const [teamName, setTeamName] = useState("");
   const [track, setTrack] = useState("AI & Machine Learning");
@@ -133,7 +134,6 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-black text-white pt-28 pb-20 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        {/* Heading */}
         <div data-aos="fade-down" className="text-center">
           <h1 className="text-3xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
             Hackathon Registration
@@ -157,15 +157,18 @@ export default function Register() {
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
               placeholder="Team Name"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/20
-              focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
+              className="w-full px-4 py-3 rounded-xl 
+              bg-black/60 text-white placeholder-gray-400
+              border border-white/20
+              focus:outline-none focus:border-cyan-400 
+              focus:ring-2 focus:ring-cyan-400/40 transition"
             />
 
             {/* Members */}
             {members.map((member, index) => (
               <div
                 key={index}
-                className="p-5 sm:p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4"
+                className="p-5 sm:p-6 rounded-2xl bg-black/50 border border-white/10 space-y-4"
               >
                 <div className="flex justify-between items-center">
                   <h3 className="text-base sm:text-lg font-semibold text-cyan-400">
@@ -184,48 +187,40 @@ export default function Register() {
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <input
-                    placeholder="Full Name"
-                    value={member.name}
-                    onChange={(e) =>
-                      handleMemberChange(index, "name", e.target.value)
-                    }
-                    className="inputField"
-                  />
-
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={member.email}
-                    onChange={(e) =>
-                      handleMemberChange(index, "email", e.target.value)
-                    }
-                    className="inputField"
-                  />
-
-                  <input
-                    type="tel"
-                    placeholder="Phone"
-                    value={member.phone}
-                    onChange={(e) =>
-                      handleMemberChange(index, "phone", e.target.value)
-                    }
-                    className="inputField"
-                  />
-
-                  <input
-                    placeholder="College Name"
-                    value={member.college}
-                    onChange={(e) =>
-                      handleMemberChange(index, "college", e.target.value)
-                    }
-                    className="inputField"
-                  />
+                  {["name", "email", "phone", "college"].map((field, i) => (
+                    <input
+                      key={i}
+                      type={
+                        field === "email"
+                          ? "email"
+                          : field === "phone"
+                            ? "tel"
+                            : "text"
+                      }
+                      placeholder={
+                        field === "name"
+                          ? "Full Name"
+                          : field === "email"
+                            ? "Email"
+                            : field === "phone"
+                              ? "Phone"
+                              : "College Name"
+                      }
+                      value={member[field]}
+                      onChange={(e) =>
+                        handleMemberChange(index, field, e.target.value)
+                      }
+                      className="w-full px-4 py-3 rounded-xl 
+                      bg-black/60 text-white placeholder-gray-400
+                      border border-white/20
+                      focus:outline-none focus:border-cyan-400 
+                      focus:ring-2 focus:ring-cyan-400/40 transition"
+                    />
+                  ))}
                 </div>
               </div>
             ))}
 
-            {/* Add Member */}
             {members.length < 4 && (
               <button
                 type="button"
@@ -240,7 +235,11 @@ export default function Register() {
             <select
               value={track}
               onChange={(e) => setTrack(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-black border border-white/20"
+              className="w-full px-4 py-3 rounded-xl 
+              bg-black/60 text-white
+              border border-white/20
+              focus:outline-none focus:border-cyan-400 
+              focus:ring-2 focus:ring-cyan-400/40 transition"
             >
               <option className="bg-black">
                 AGRITECH REVOLUTION – Smart Farming & Food Innovation
@@ -259,7 +258,6 @@ export default function Register() {
               </option>
             </select>
 
-            {/* Declaration */}
             <div className="flex items-start gap-3 text-sm text-gray-300">
               <input
                 type="checkbox"
@@ -286,17 +284,20 @@ export default function Register() {
           </div>
         )}
 
-        {/* SUCCESS MODAL */}
+        {/* SUCCESS MODAL — UNTOUCHED */}
         {showSuccess && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 px-6">
-            <Confetti numberOfPieces={150} recycle={false} />
+            <Confetti
+              numberOfPieces={400}
+              recycle={false}
+              gravity={0.5}
+              initialVelocityY={20}
+              tweenDuration={3000}
+            />
             <div className="bg-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-white/20 text-center max-w-md w-full">
               <div className="text-5xl mb-4">🎉</div>
-
               <h2 className="text-2xl font-bold">Registration Successful!</h2>
-
               <p className="text-gray-400 mt-4">Your Registration ID:</p>
-
               <p className="text-cyan-400 font-bold text-xl mt-2 font-mono">
                 {generatedId}
               </p>
@@ -305,18 +306,34 @@ export default function Register() {
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(generatedId);
-                    alert("Registration ID copied!");
+                    setCopied(true);
+
+                    setTimeout(() => {
+                      setCopied(false);
+                    }, 2000);
                   }}
-                  className="w-full px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-700 transition"
+                  className={`w-full px-6 py-3 rounded-xl transition font-semibold ${
+                    copied
+                      ? "bg-green-600 text-white"
+                      : "bg-cyan-600 hover:bg-cyan-700 text-white"
+                  }`}
                 >
-                  Copy Registration ID
+                  {copied ? "Copied ✓" : "Copy Registration ID"}
                 </button>
 
                 <Link
                   to="/check-status"
-                  className="block text-cyan-400 underline"
+                  className="w-full inline-flex items-center justify-center 
+  px-6 py-3 rounded-xl 
+  bg-white/5 border border-cyan-400/30 
+  text-cyan-400 font-medium 
+  transition duration-300 
+  hover:bg-cyan-500/10 
+  hover:border-cyan-400 
+  hover:shadow-[0_0_20px_rgba(0,255,255,0.4)] 
+  hover:scale-[1.02]"
                 >
-                  Check Status
+                  Check Status →
                 </Link>
 
                 <button

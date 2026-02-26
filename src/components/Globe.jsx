@@ -9,7 +9,6 @@ import * as THREE from "three";
 ========================= */
 function GlobeMesh() {
   const groupRef = useRef();
-  const [hovered, setHovered] = useState(false);
 
   useFrame((state, delta) => {
     if (!groupRef.current) return;
@@ -47,12 +46,7 @@ function GlobeMesh() {
   }, []);
 
   return (
-    <group
-      ref={groupRef}
-      scale={[0, 0, 0]}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
+    <group ref={groupRef} scale={[0, 0, 0]}>
       <points>
         <bufferGeometry>
           <bufferAttribute
@@ -65,9 +59,9 @@ function GlobeMesh() {
 
         <pointsMaterial
           size={0.05}
-          color={hovered ? "#00ffff" : "#00f5ff"}
+          color="#00f5ff"
           transparent
-          opacity={hovered ? 1 : 0.9}
+          opacity={0.95}
           depthWrite={false}
         />
       </points>

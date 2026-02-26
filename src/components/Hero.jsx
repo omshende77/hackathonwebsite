@@ -33,7 +33,7 @@ export default function Hero() {
       ></div>
 
       {/* MAIN CONTAINER */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 pt-32 pb-20">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 pb-20">
         {/* TOP TITLE */}
         <div className="text-center mb-16" data-aos="fade-down">
           <h2
@@ -45,7 +45,7 @@ export default function Hero() {
 
           <h3
             className="mt-4 text-2xl sm:text-4xl md:text-5xl font-extrabold 
-          bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+          bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent soft-glow"
           >
             TechSprint – 24 Hrs Hackathon 2026
           </h3>

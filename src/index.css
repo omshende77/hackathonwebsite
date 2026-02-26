@@ -74,3 +74,59 @@ html {
 .glow-btn {
   animation: glow 2s infinite ease-in-out;
 }
+
+.inputField {
+  @apply w-full px-4 py-3 rounded-xl 
+  bg-black/50 text-white 
+  border border-white/20 
+  placeholder-gray-400
+  focus:outline-none 
+  focus:border-cyan-400 
+  focus:ring-2 
+  focus:ring-cyan-400/40
+  transition;
+}
+
+/* Remove ugly Chrome autofill white */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+  -webkit-text-fill-color: white !important;
+}
+@keyframes neonGlow {
+  0% {
+    text-shadow:
+      0 0 5px #06b6d4,
+      0 0 10px #06b6d4,
+      0 0 20px #06b6d4;
+  }
+  50% {
+    text-shadow: none;
+  }
+  100% {
+    text-shadow:
+      0 0 5px #06b6d4,
+      0 0 10px #06b6d4,
+      0 0 20px #06b6d4;
+  }
+}
+
+.glow-breath {
+  animation: neonGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes softShadowPulse {
+  0% {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+}
+
+.soft-glow {
+  animation: softShadowPulse 2.5s ease-in-out infinite;
+}
