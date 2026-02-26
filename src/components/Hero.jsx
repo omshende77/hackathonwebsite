@@ -1,12 +1,16 @@
 import Globe from "./Globe";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Confetti from "react-confetti"; // if you are using this library
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default function Hero() {
   const today = new Date();
   const resultDate = new Date("2026-03-20T18:00:00");
+  
+
+
 
   useEffect(() => {
     AOS.init({ duration: 900, once: true });
@@ -14,6 +18,7 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen bg-black text-white overflow-hidden">
+    
       {/* Background Image */}
       <img
         className="absolute inset-0 w-full h-full object-cover"

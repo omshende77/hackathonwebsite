@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
 import { AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -27,6 +28,30 @@ import SplashScreen from "./components/SplashScreen";
 export default function App() {
   const navigate = useNavigate();
   const [showSplash, setShowSplash] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+
+    const triggerConfetti = () => {
+      setShowConfetti(true);
+
+      // Stop after 5 seconds
+      timeoutId = setTimeout(() => {
+        setShowConfetti(false);
+      }, 10000);
+
+      // Random next trigger (8–9 sec)
+      const nextTime = 8000 + Math.random() * 1000;
+      setTimeout(triggerConfetti, nextTime);
+    };
+
+    triggerConfetti();
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Initialize AOS
   useEffect(() => {
@@ -51,6 +76,22 @@ export default function App() {
 
   return (
     <>
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={400}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 9999,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
       {/* Splash Screen */}
       <AnimatePresence>
         {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
