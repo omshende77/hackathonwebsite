@@ -1,58 +1,103 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDoc } from "firebase/firestore";
 import Confetti from "react-confetti";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { serverTimestamp } from "firebase/firestore";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    teamName: "",
-    leaderName: "",
-    email: "",
-    phone: "",
-    college: "",
-    track: "AI & Machine Learning",
-  });
+  const [agree, setAgree] = useState(false);
+  const [registrationOpen, setRegistrationOpen] = useState(true);
+
+  const [teamName, setTeamName] = useState("");
+  const [track, setTrack] = useState("AI & Machine Learning");
+
+  const [members, setMembers] = useState([
+    { name: "", email: "", phone: "", college: "", role: "Leader" },
+    { name: "", email: "", phone: "", college: "", role: "Member" },
+  ]);
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [generatedId, setGeneratedId] = useState("");
+
+  useEffect(() => {
+    AOS.init({ duration: 800, once: true });
+
+    const fetchConfig = async () => {
+      const docRef = doc(db, "settings", "eventConfig");
+      const snapshot = await getDoc(docRef);
+      if (snapshot.exists()) {
+        setRegistrationOpen(snapshot.data().registrationOpen);
+      }
+    };
+
+    fetchConfig();
+  }, []);
+
+  const addMember = () => {
+    if (members.length < 4) {
+      setMembers([
+        ...members,
+        { name: "", email: "", phone: "", college: "", role: "Member" },
+      ]);
+    }
+  };
+
+  const removeMember = (index) => {
+    if (members.length > 2) {
+      const updated = members.filter((_, i) => i !== index);
+      setMembers(updated);
+    }
+  };
+
+  const handleMemberChange = (index, field, value) => {
+    const updated = [...members];
+    updated[index][field] = value;
+    setMembers(updated);
+  };
 
   const saveRegistration = async () => {
     const registrationId = "SGI-" + Date.now().toString().slice(-6);
 
     await addDoc(collection(db, "registrations"), {
-      ...formData,
-      status: "Pending",
+      teamName,
+      theme: track,
+      members,
       registrationId,
       paymentStatus: "Paid",
+      round1Status: "Pending",
+      finalStatus: "Not Started",
+      createdAt: serverTimestamp(),
     });
 
     setGeneratedId(registrationId);
     setShowSuccess(true);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handlePayment = async () => {
-    if (
-      !formData.teamName ||
-      !formData.leaderName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.college
-    ) {
-      alert("Please fill all fields");
+    if (!agree) {
+      alert("Please accept the declaration before proceeding.");
       return;
     }
+    if (!teamName) {
+      alert("Please enter team name");
+      return;
+    }
+
+    for (let member of members) {
+      if (!member.name || !member.email || !member.phone || !member.college) {
+        alert("Please fill all member details");
+        return;
+      }
+    }
+
     const response = await fetch("http://localhost:5000/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 1 }), // change later
+      body: JSON.stringify({ amount: 1000 }),
     });
 
     const order = await response.json();
@@ -72,167 +117,239 @@ export default function Register() {
         });
 
         const result = await verify.json();
-
         if (result.success) {
-          // NOW save to Firestore
           saveRegistration();
         } else {
           alert("Payment verification failed");
         }
       },
-      theme: {
-        color: "#06b6d4",
-      },
+      theme: { color: "#06b6d4" },
     };
 
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
+
   return (
-    <div className="relative min-h-screen bg-black text-white pt-28 pb-28 overflow-hidden">
-      <div className="relative max-w-3xl mx-auto px-6">
-        <h1
-          className="text-5xl font-extrabold text-center 
-        bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 py-4"
-        >
-          Hackathon Registration
-        </h1>
+    <div className="min-h-screen bg-black text-white pt-28 pb-20 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Heading */}
+        <div data-aos="fade-down" className="text-center">
+          <h1 className="text-3xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+            Hackathon Registration
+          </h1>
+          <p className="text-gray-400 mt-4 text-sm sm:text-base">
+            Team of 2–4 members | Registration Fee ₹1000
+          </p>
+        </div>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handlePayment();
-          }}
-          className="mt-14 bg-white/5 backdrop-blur-xl p-10 rounded-3xl 
-          border border-white/10 shadow-[0_0_40px_rgba(0,255,255,0.2)] space-y-6"
-        >
-          {/* Team Name */}
-          <div>
-            <label className="block text-sm text-gray-300">Team Name</label>
-            <input
-              name="teamName"
-              value={formData.teamName}
-              onChange={handleChange}
-              type="text"
-              className="mt-2 w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10
-              focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
-            />
-          </div>
-
-          {/* Leader Name */}
-          <div>
-            <label className="block text-sm text-gray-300">
-              Team Leader Name
-            </label>
-            <input
-              name="leaderName"
-              value={formData.leaderName}
-              onChange={handleChange}
-              type="text"
-              className="mt-2 w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10
-              focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm text-gray-300">Email</label>
-            <input
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              type="email"
-              className="mt-2 w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10
-              focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
-            />
-          </div>
-
-          {/* Phone */}
-          <div>
-            <label className="block text-sm text-gray-300">Phone</label>
-            <input
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              type="tel"
-              className="mt-2 w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10
-              focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
-            />
-          </div>
-
-          {/* College */}
-          <div>
-            <label className="block text-sm text-gray-300">College</label>
-            <input
-              name="college"
-              value={formData.college}
-              onChange={handleChange}
-              type="text"
-              className="mt-2 w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10
-              focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
-            />
-          </div>
-
-          {/* Track */}
-          <div>
-            <label className="block text-sm text-gray-300">Track</label>
-            <select
-              name="track"
-              value={formData.track}
-              onChange={handleChange}
-              className="mt-2 w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10
-              focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
-            >
-              <option className="bg-black">AI & Machine Learning</option>
-              <option className="bg-black">Web & App Development</option>
-              <option className="bg-black">Cybersecurity</option>
-              <option className="bg-black">Open Innovation</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full mt-6 py-4 rounded-2xl font-semibold text-lg
-            bg-gradient-to-r from-cyan-500 to-blue-600
-            hover:scale-105 transition duration-300"
+        {registrationOpen ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handlePayment();
+            }}
+            data-aos="fade-up"
+            className="mt-12 bg-white/5 backdrop-blur-xl p-6 sm:p-10 rounded-3xl border border-white/10 space-y-8"
           >
-            Proceed to Payment
-          </button>
-        </form>
-        {showSuccess && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
-            <Confetti numberOfPieces={200} recycle={false} />
+            {/* Team Name */}
+            <input
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              placeholder="Team Name"
+              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/20
+              focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/40"
+            />
 
-            <div className="bg-white/10 backdrop-blur-xl p-10 rounded-3xl border border-white/20 text-center max-w-md w-full animate-fadeIn">
+            {/* Members */}
+            {members.map((member, index) => (
+              <div
+                key={index}
+                className="p-5 sm:p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4"
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="text-base sm:text-lg font-semibold text-cyan-400">
+                    {member.role} {index >= 2 && `(Member ${index + 1})`}
+                  </h3>
+
+                  {index >= 2 && (
+                    <button
+                      type="button"
+                      onClick={() => removeMember(index)}
+                      className="text-red-400 text-sm hover:text-red-500"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <input
+                    placeholder="Full Name"
+                    value={member.name}
+                    onChange={(e) =>
+                      handleMemberChange(index, "name", e.target.value)
+                    }
+                    className="inputField"
+                  />
+
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={member.email}
+                    onChange={(e) =>
+                      handleMemberChange(index, "email", e.target.value)
+                    }
+                    className="inputField"
+                  />
+
+                  <input
+                    type="tel"
+                    placeholder="Phone"
+                    value={member.phone}
+                    onChange={(e) =>
+                      handleMemberChange(index, "phone", e.target.value)
+                    }
+                    className="inputField"
+                  />
+
+                  <input
+                    placeholder="College Name"
+                    value={member.college}
+                    onChange={(e) =>
+                      handleMemberChange(index, "college", e.target.value)
+                    }
+                    className="inputField"
+                  />
+                </div>
+              </div>
+            ))}
+
+            {/* Add Member */}
+            {members.length < 4 && (
+              <button
+                type="button"
+                onClick={addMember}
+                className="px-6 py-3 bg-cyan-500 hover:bg-cyan-600 rounded-xl font-semibold transition"
+              >
+                + Add Member
+              </button>
+            )}
+
+            {/* Track */}
+            <select
+              value={track}
+              onChange={(e) => setTrack(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-black border border-white/20"
+            >
+              <option className="bg-black">
+                AGRITECH REVOLUTION – Smart Farming & Food Innovation
+              </option>
+              <option className="bg-black">
+                NEXT-GEN HEALTHTECH – Digital Care & Smart Diagnosis
+              </option>
+              <option className="bg-black">
+                GREENTECH & CLIMATE ACTION – Sustainable Innovation
+              </option>
+              <option className="bg-black">
+                WOMEN SAFETY & EMPOWERMENT TECH – Secure & Empower
+              </option>
+              <option className="bg-black">
+                MINDTECH – Mental Wellness Innovation
+              </option>
+            </select>
+
+            {/* Declaration */}
+            <div className="flex items-start gap-3 text-sm text-gray-300">
+              <input
+                type="checkbox"
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                className="mt-1 accent-cyan-500"
+              />
+              <p>
+                I confirm that all details are correct and agree to the
+                hackathon rules.
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 font-semibold hover:scale-[1.02] transition"
+            >
+              Proceed to Payment
+            </button>
+          </form>
+        ) : (
+          <div className="text-center text-red-400 text-xl mt-10">
+            🚫 Registration is currently closed.
+          </div>
+        )}
+
+        {/* SUCCESS MODAL */}
+        {showSuccess && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 px-6">
+            <Confetti numberOfPieces={150} recycle={false} />
+            <div className="bg-white/10 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-white/20 text-center max-w-md w-full">
               <div className="text-5xl mb-4">🎉</div>
 
-              <h2 className="text-2xl font-bold text-white">
-                Registration Successful!
-              </h2>
+              <h2 className="text-2xl font-bold">Registration Successful!</h2>
 
               <p className="text-gray-400 mt-4">Your Registration ID:</p>
 
-              <p className="text-cyan-400 font-bold text-xl mt-2">
+              <p className="text-cyan-400 font-bold text-xl mt-2 font-mono">
                 {generatedId}
               </p>
 
-              <p className="text-gray-500 mt-4 text-sm">
-                A confirmation email has been sent.
-              </p>
-
-              <div className="mt-6 flex gap-4 justify-center">
+              <div className="mt-6 space-y-3">
                 <button
-                  onClick={() => setShowSuccess(false)}
-                  className="px-6 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 transition"
+                  onClick={() => {
+                    navigator.clipboard.writeText(generatedId);
+                    alert("Registration ID copied!");
+                  }}
+                  className="w-full px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-700 transition"
                 >
-                  Close
+                  Copy Registration ID
                 </button>
+
+                <Link
+                  to="/check-status"
+                  className="block text-cyan-400 underline"
+                >
+                  Check Status
+                </Link>
 
                 <button
                   onClick={() => navigate("/")}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:scale-105 transition"
+                  className="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600"
                 >
                   Back to Homepage
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowSuccess(false);
+                    setTeamName("");
+                    setMembers([
+                      {
+                        name: "",
+                        email: "",
+                        phone: "",
+                        college: "",
+                        role: "Leader",
+                      },
+                      {
+                        name: "",
+                        email: "",
+                        phone: "",
+                        college: "",
+                        role: "Member",
+                      },
+                    ]);
+                  }}
+                  className="w-full px-6 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 transition"
+                >
+                  Close
                 </button>
               </div>
             </div>

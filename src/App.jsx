@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Themes from "./components/Themes";
@@ -16,9 +18,19 @@ import FAQ from "./components/FAQ";
 import Admin from "./pages/Admin";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Round1Results from "./pages/Round1Results";
+import FinalResults from "./pages/FinalResults";
+import CheckStatus from "./pages/CheckStatus";
 export default function App() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 80,
+    });
+  }, []);
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") {
@@ -56,6 +68,9 @@ export default function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/hackathon" element={<Hackathon />} />
         <Route path="/schedule" element={<Schedule />} />
+        <Route path="/round1-results" element={<Round1Results />} />
+        <Route path="/final-results" element={<FinalResults />} />
+        <Route path="/check-status" element={<CheckStatus />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
